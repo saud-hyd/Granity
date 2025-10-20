@@ -4,8 +4,11 @@ import useStore from '../store/useStore';
 const Header = ({ currentView, setCurrentView }) => {
   const { currentUser, logout } = useStore();
 
-  const canAccessManagerView = currentUser?.role === 'manager' || currentUser?.role === 'viewer';
-  const canAccessTeamView = currentUser?.role === 'teamlead' || currentUser?.role === 'viewer';
+  // Only manager can switch between views
+  const canAccessManagerView = currentUser?.role === 'manager';
+  const canAccessTeamView = currentUser?.role === 'manager';
+
+  // Team members and leads only see their team dashboard (no navigation buttons)
 
   return (
     <header className="bg-white shadow-md">

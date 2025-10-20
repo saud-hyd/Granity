@@ -8,19 +8,25 @@ import TeamDashboard from './components/TeamDashboard';
 function App() {
   const { isAuthenticated, currentUser } = useStore();
   const [currentView, setCurrentView] = useState('manager');
+  const [selectedTeamForView, setSelectedTeamForView] = useState(null);
 
   // Set initial view based on user role
   useEffect(() => {
     if (currentUser) {
       if (currentUser.role === 'manager') {
         setCurrentView('manager');
-      } else if (currentUser.role === 'teamlead') {
+      } else if (currentUser.role === 'teamlead' || currentUser.role === 'member') {
+        // Team leads and members start at their team view
         setCurrentView('team');
-      } else if (currentUser.role === 'viewer') {
-        setCurrentView('manager');
       }
     }
   }, [currentUser]);
+
+  // Handle viewing team details from Manager Dashboard
+  const handleViewTeamDetails = (teamName) => {
+    setSelectedTeamForView(teamName);
+    setCurrentView('team');
+  };
 
   // If not authenticated, show login
   if (!isAuthenticated) {
@@ -32,8 +38,8 @@ function App() {
     <div className="min-h-screen bg-gray-50">
       <Header currentView={currentView} setCurrentView={setCurrentView} />
 
-      {currentView === 'manager' && <ManagerDashboard />}
-      {currentView === 'team' && <TeamDashboard />}
+      {currentView === 'manager' && <ManagerDashboard onViewTeamDetails={handleViewTeamDetails} />}
+      {currentView === 'team' && <TeamDashboard preselectedTeam={selectedTeamForView} />}
     </div>
   );
 }

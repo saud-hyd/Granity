@@ -70,39 +70,60 @@ The production build will be in the `dist` folder.
 
 ## Demo Login Credentials
 
-For demonstration purposes, select any of the following users:
+The application has three role types with automatic team assignment:
 
-- **Manager** (username: manager) - View all teams
-- **Team A Lead** (username: teamA) - Edit Team A data
-- **Team B Lead** (username: teamB) - Edit Team B data
-- **Team C Lead** (username: teamC) - Edit Team C data
-- **Viewer** (username: viewer) - Read-only access to all teams
+### User Roles:
+- **Manager**: Full access to all teams - can view combined analytics and drill into any team
+- **Team Lead**: Can edit and manage their own team's projects
+- **Team Member**: Read-only access to their own team's dashboard
+
+### Demo Users:
+
+**Management:**
+- Sarah Johnson (Manager) - username: `manager`
+
+**Team A:**
+- John Mitchell (Team Lead) - username: `teamAlead`
+- Mike Jamestone (Member) - username: `teamAmember1`
+- Robert Chen (Member) - username: `teamAmember2`
+
+**Team B:**
+- Emily Rodriguez (Team Lead) - username: `teamBlead`
+- Carlos Mendez (Member) - username: `teamBmember1`
+- Patricia Lee (Member) - username: `teamBmember2`
+
+**Team C:**
+- Jennifer Park (Team Lead) - username: `teamClead`
+- Robert Kim (Member) - username: `teamCmember1`
+- Angela Torres (Member) - username: `teamCmember2`
 
 Password for all users: `demo123` (auto-filled)
+
+**Note:** In production, team assignment will be automatic based on user authentication from your backend system.
 
 ## How to Use for Demo Presentation
 
 ### 1. Login as Manager
-- Select "Manager" from the dropdown
+- Select "Sarah Johnson (Manager)" from the dropdown
 - Click "Login to Dashboard"
 - You'll see the **Manager Dashboard** with:
   - Combined KPIs for all 3 teams
-  - Team performance cards showing Team A, B, and C metrics
+  - Team performance cards with "View Team Details" buttons
   - Team comparison charts
   - Status distribution pie chart
   - Sales rep performance
   - Monthly trends
   - Complete project table with all teams
 
-### 2. Switch to Team View
-- Click "Team View" in the header
-- Shows Team A's dashboard (or whichever team you're logged in as)
-- View team-specific KPIs, charts, and projects
+### 2. Drill Down into Team Details (as Manager)
+- **Option A**: Click "View Team Details" button on any team card → Automatically shows that team's detailed dashboard
+- **Option B**: Click "Team View" in header → Use dropdown to select any team (A, B, or C)
+- Manager can explore all teams but cannot edit data
 
 ### 3. Login as Team Lead
 - Logout (click Logout button)
-- Select "Team A Lead" (or B/C)
-- Navigate to "Team View"
+- Select a Team Lead (e.g., "John Mitchell (Team A Lead)")
+- Automatically directed to their team's dashboard
 - **Demonstrate editing capabilities**:
   - Click the edit icon on any project row
   - Modify project details (name, status, contractor, etc.)
@@ -110,18 +131,24 @@ Password for all users: `demo123` (auto-filled)
   - Charts update in real-time
   - Click delete icon to remove a project
   - Click "Export to Excel" to download the data
+- Team Leads are locked to their own team (no team selector)
 
-### 4. Login as Viewer
-- Logout and select "Viewer"
-- Navigate between Manager View and Team View
-- Use the team dropdown to switch between teams
-- All data is read-only (no edit/delete buttons)
+### 4. Login as Team Member
+- Logout and select a Team Member (e.g., "Mike Jamestone (Team A Member)")
+- See their team's dashboard
+- **Read-only access**:
+  - View all KPIs, charts, and project data
+  - No edit or delete buttons
+  - Can search, filter, and export to Excel
+  - Cannot modify any data
+- Team Members are locked to their own team
 
 ### 5. Demonstrate Features
 - **Search**: Type in the search box to filter projects
 - **Status Filter**: Use the dropdown to filter by project status
 - **Export**: Click "Export to Excel" to download filtered data
 - **Interactive Charts**: Hover over charts to see detailed tooltips
+- **Real-time Updates**: Edit data as Team Lead and see charts update instantly
 
 ## Project Structure
 

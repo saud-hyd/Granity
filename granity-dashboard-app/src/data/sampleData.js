@@ -513,10 +513,23 @@ export const teamCData = [
 ];
 
 // User roles for authentication
+// In production, team assignment will be automatic based on user ID from backend
 export const users = [
-  { id: 1, username: "manager", password: "demo123", role: "manager", name: "Manager" },
-  { id: 2, username: "teamA", password: "demo123", role: "teamlead", team: "A", name: "Team A Lead" },
-  { id: 3, username: "teamB", password: "demo123", role: "teamlead", team: "B", name: "Team B Lead" },
-  { id: 4, username: "teamC", password: "demo123", role: "teamlead", team: "C", name: "Team C Lead" },
-  { id: 5, username: "viewer", password: "demo123", role: "viewer", name: "Viewer" }
+  // Manager - can view all teams and drill down into details
+  { id: 1, username: "manager", password: "demo123", role: "manager", name: "Sarah Johnson (Manager)", team: null },
+
+  // Team A
+  { id: 2, username: "teamAlead", password: "demo123", role: "teamlead", team: "A", name: "John Mitchell (Team A Lead)" },
+  { id: 3, username: "teamAmember1", password: "demo123", role: "member", team: "A", name: "Mike Jamestone (Team A Member)" },
+  { id: 4, username: "teamAmember2", password: "demo123", role: "member", team: "A", name: "Robert Chen (Team A Member)" },
+
+  // Team B
+  { id: 5, username: "teamBlead", password: "demo123", role: "teamlead", team: "B", name: "Emily Rodriguez (Team B Lead)" },
+  { id: 6, username: "teamBmember1", password: "demo123", role: "member", team: "B", name: "Carlos Mendez (Team B Member)" },
+  { id: 7, username: "teamBmember2", password: "demo123", role: "member", team: "B", name: "Patricia Lee (Team B Member)" },
+
+  // Team C
+  { id: 8, username: "teamClead", password: "demo123", role: "teamlead", team: "C", name: "Jennifer Park (Team C Lead)" },
+  { id: 9, username: "teamCmember1", password: "demo123", role: "member", team: "C", name: "Robert Kim (Team C Member)" },
+  { id: 10, username: "teamCmember2", password: "demo123", role: "member", team: "C", name: "Angela Torres (Team C Member)" }
 ];

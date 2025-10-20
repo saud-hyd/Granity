@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import useStore from '../store/useStore';
 import KPICard from './KPICard';
 import DataTable from './DataTable';
@@ -6,16 +6,30 @@ import { StatusPieChart, SalesRepBarChart, MonthlyTrendChart } from './Charts';
 import { Briefcase, DollarSign, CheckCircle, TrendingUp } from 'lucide-react';
 import { formatCurrency, parseCurrency } from '../utils/excelUtils';
 
-const TeamDashboard = () => {
+const TeamDashboard = ({ preselectedTeam }) => {
   const { currentUser, getTeamProjects, updateProject, deleteProject } = useStore();
 
   // Determine which team to show
   const [selectedTeam, setSelectedTeam] = useState(
-    currentUser?.role === 'teamlead' ? currentUser.team : 'A'
+    preselectedTeam || (currentUser?.role === 'teamlead' ? currentUser.team : 'A')
   );
 
+  // Update selected team when preselectedTeam changes
+  useEffect(() => {
+    if (preselectedTeam) {
+      setSelectedTeam(preselectedTeam);
+    }
+  }, [preselectedTeam]);
+
+  // Only team leads can edit their own team's data
   const canEdit = currentUser?.role === 'teamlead' && currentUser?.team === selectedTeam;
-  const isViewer = currentUser?.role === 'viewer';
+
+  // Only managers can select different teams
+  const isManager = currentUser?.role === 'manager';
+  const canSelectTeam = isManager;
+
+  // Team members and leads are locked to their team
+  const isTeamUser = currentUser?.role === 'teamlead' || currentUser?.role === 'member';
 
   const teamProjects = useMemo(() => {
     return getTeamProjects(selectedTeam);
@@ -74,18 +88,22 @@ const TeamDashboard = () => {
               Team {selectedTeam} Dashboard
             </h2>
             <p className="text-gray-600">
-              {canEdit ? 'You can edit and manage your team\'s projects' : 'View team projects and performance'}
+              {canEdit
+                ? 'Team Lead - You can edit and manage your team\'s projects'
+                : isManager
+                ? 'Manager - Drill down into individual team performance and projects'
+                : 'Team Member - View your team\'s projects and performance (read-only)'}
             </p>
           </div>
 
-          {/* Team Selector for Viewers */}
-          {isViewer && (
+          {/* Team Selector for Manager Only */}
+          {canSelectTeam && (
             <div className="flex items-center gap-3">
               <label className="text-sm font-medium text-gray-700">Select Team:</label>
               <select
                 value={selectedTeam}
                 onChange={(e) => setSelectedTeam(e.target.value)}
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent font-semibold"
               >
                 <option value="A">Team A</option>
                 <option value="B">Team B</option>

@@ -31,7 +31,7 @@ const Login = () => {
         <form onSubmit={handleLogin} className="space-y-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Select User Role
+              Select User to Login
             </label>
             <select
               value={selectedUser}
@@ -39,12 +39,39 @@ const Login = () => {
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
               required
             >
-              <option value="">-- Choose a role to demo --</option>
-              {users.map(user => (
-                <option key={user.id} value={user.username}>
-                  {user.name}
-                </option>
-              ))}
+              <option value="">-- Choose a user to demo --</option>
+
+              <optgroup label="👤 Management">
+                {users.filter(u => u.role === 'manager').map(user => (
+                  <option key={user.id} value={user.username}>
+                    {user.name}
+                  </option>
+                ))}
+              </optgroup>
+
+              <optgroup label="👨‍💼 Team A">
+                {users.filter(u => u.team === 'A').map(user => (
+                  <option key={user.id} value={user.username}>
+                    {user.name}
+                  </option>
+                ))}
+              </optgroup>
+
+              <optgroup label="👨‍💼 Team B">
+                {users.filter(u => u.team === 'B').map(user => (
+                  <option key={user.id} value={user.username}>
+                    {user.name}
+                  </option>
+                ))}
+              </optgroup>
+
+              <optgroup label="👨‍💼 Team C">
+                {users.filter(u => u.team === 'C').map(user => (
+                  <option key={user.id} value={user.username}>
+                    {user.name}
+                  </option>
+                ))}
+              </optgroup>
             </select>
           </div>
 
@@ -57,12 +84,15 @@ const Login = () => {
         </form>
 
         <div className="mt-8 p-4 bg-blue-50 rounded-lg">
-          <h3 className="font-semibold text-sm text-blue-900 mb-2">Demo Roles:</h3>
+          <h3 className="font-semibold text-sm text-blue-900 mb-2">User Roles:</h3>
           <ul className="text-xs text-blue-800 space-y-1">
-            <li><span className="font-semibold">Manager:</span> View all 3 teams, combined analytics</li>
-            <li><span className="font-semibold">Team Lead (A/B/C):</span> Edit team data, view team dashboard</li>
-            <li><span className="font-semibold">Viewer:</span> Read-only access to all dashboards</li>
+            <li><span className="font-semibold">Manager:</span> Full access - view all teams, drill into details</li>
+            <li><span className="font-semibold">Team Lead:</span> Manage their team - edit projects, update status</li>
+            <li><span className="font-semibold">Team Member:</span> View their team's dashboard (read-only)</li>
           </ul>
+          <p className="text-xs text-blue-700 mt-3 italic">
+            💡 In production, team assignment is automatic based on user authentication
+          </p>
         </div>
 
         <div className="mt-6 text-center text-xs text-gray-500">

@@ -3,10 +3,10 @@ import useStore from '../store/useStore';
 import KPICard from './KPICard';
 import DataTable from './DataTable';
 import { StatusPieChart, TeamComparisonChart, SalesRepBarChart, MonthlyTrendChart } from './Charts';
-import { Briefcase, DollarSign, CheckCircle, Users } from 'lucide-react';
+import { Briefcase, DollarSign, CheckCircle, Users, ArrowRight } from 'lucide-react';
 import { formatCurrency, parseCurrency } from '../utils/excelUtils';
 
-const ManagerDashboard = () => {
+const ManagerDashboard = ({ onViewTeamDetails }) => {
   const { getAllProjects, teamAProjects, teamBProjects, teamCProjects } = useStore();
 
   const allProjects = useMemo(() => getAllProjects(), [teamAProjects, teamBProjects, teamCProjects]);
@@ -74,7 +74,7 @@ const ManagerDashboard = () => {
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
           <h2 className="text-3xl font-bold text-gray-800 mb-2">Manager Dashboard</h2>
-          <p className="text-gray-600">Overview of all teams and projects</p>
+          <p className="text-gray-600">Overview of all teams and projects - Click "View Team Details" on any team card to drill down, or switch to Team View to explore individual teams</p>
         </div>
 
         {/* KPI Cards */}
@@ -112,9 +112,9 @@ const ManagerDashboard = () => {
         {/* Team Performance Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           {teamStats.map(team => (
-            <div key={team.name} className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-6 text-white shadow-lg">
+            <div key={team.name} className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-6 text-white shadow-lg hover:shadow-xl transition-shadow">
               <h3 className="text-xl font-semibold mb-4">Team {team.name}</h3>
-              <div className="space-y-3">
+              <div className="space-y-3 mb-4">
                 <div>
                   <p className="text-blue-100 text-sm">Total Projects</p>
                   <p className="text-3xl font-bold">{team.projects}</p>
@@ -128,6 +128,13 @@ const ManagerDashboard = () => {
                   <p className="text-xl font-semibold">{team.submitted} projects</p>
                 </div>
               </div>
+              <button
+                onClick={() => onViewTeamDetails(team.name)}
+                className="w-full bg-white text-blue-600 py-2 px-4 rounded-lg font-semibold hover:bg-blue-50 transition-colors flex items-center justify-center gap-2"
+              >
+                View Team Details
+                <ArrowRight className="w-4 h-4" />
+              </button>
             </div>
           ))}
         </div>
